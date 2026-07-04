@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style>
+
+        body{
+
+            height: 100vh;
+
+            background-image:
+            linear-gradient(
+                rgba(0,0,0,0.7),
+                rgba(0,0,0,0.7)
+            ),
+
+            url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6');
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-repeat: no-repeat;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+        }
+
+        .register-box{
+
+            width: 400px;
+
+            background-color: rgba(0,0,0,0.7);
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            color: white;
+
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+        }
+
+        h2{
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        input{
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 15px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            color: black;
+        }
+
+        button{
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background-color: green;
+
+            color: white;
+
+            font-size: 16px;
+        }
+
+        button:hover{
+
+            background-color: darkgreen;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="register-box">
+
+    <h2>Register</h2>
+
+    <form method="POST">
+
+        <input type="text"
+               name="username"
+               placeholder="Enter Username"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter Password"
+               required>
+
+        <button type="submit">
+
+            Register
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

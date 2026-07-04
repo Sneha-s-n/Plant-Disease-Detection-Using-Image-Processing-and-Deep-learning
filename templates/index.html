@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Plant Disease Detection
+    </title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+
+            height: 100vh;
+
+            background-image:
+            linear-gradient(
+                rgba(0,0,0,0.7),
+                rgba(0,0,0,0.7)
+            ),
+
+            url('https://wallpaperaccess.com/full/1598227.jpg');
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-repeat: no-repeat;
+
+            font-family: Arial, sans-serif;
+
+            overflow: hidden;
+        }
+
+        .navbar{
+
+            border-radius: 0;
+        }
+
+        .navbar-brand{
+
+            color: white !important;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .navbar-nav li a{
+
+            color: white !important;
+        }
+
+        .main-container{
+
+            width: 100%;
+
+            height: 90vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+        .content-box{
+
+            width: 500px;
+
+            text-align: center;
+
+            background-color: rgba(0,0,0,0.65);
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            backdrop-filter: blur(5px);
+
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+        }
+
+        .main-title{
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: white;
+
+            margin-bottom: 20px;
+
+            line-height: 40px;
+        }
+
+        .sub-title{
+
+            font-size: 18px;
+
+            color: white;
+
+            margin-bottom: 20px;
+        }
+
+        hr{
+
+            border-color: rgba(255,255,255,0.3);
+
+            margin-bottom: 30px;
+        }
+
+        input[type=file]{
+
+            width: 100%;
+
+            padding: 10px;
+
+            background-color: white;
+
+            color: black;
+
+            border-radius: 5px;
+
+            margin-bottom: 20px;
+        }
+
+        .btn-custom{
+
+            width: 160px;
+
+            padding: 10px;
+
+            border: 2px solid white;
+
+            background-color: transparent;
+
+            color: white;
+
+            font-size: 15px;
+
+            margin: 8px;
+
+            transition: 0.3s;
+
+            border-radius: 5px;
+        }
+
+        .btn-custom:hover{
+
+            background-color: white;
+
+            color: black;
+        }
+
+        video{
+
+            width: 100%;
+
+            max-width: 400px;
+
+            margin-top: 20px;
+
+            border-radius: 10px;
+
+            display: none;
+        }
+
+        canvas{
+
+            display: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+
+            <a class="navbar-brand">
+
+                COFFEE PLANT LEAF DISEASE DETECTION SYSTEM
+
+            </a>
+
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li>
+                <a href="/login">
+
+                    Login
+
+                </a>
+            </li>
+
+            <li>
+                <a href="/register">
+
+                    Register
+
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+
+                    Logout
+
+                 </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</nav>
+
+<div class="main-container">
+
+    <div class="content-box">
+
+        <div class="main-title">
+
+            COFFEE PLANT LEAF DISEASE DETECTION SYSTEM
+
+        </div>
+
+        <hr>
+
+        <div class="sub-title">
+
+            Select Image
+
+        </div>
+
+        <!-- Upload Form -->
+
+        <form action="/predict"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file"
+                   name="filename"
+                   required>
+
+            <input type="submit"
+                   value="Analyse"
+                   class="btn-custom">
+
+        </form>
+
+        <br>
+
+        <div class="sub-title">
+
+            Live Camera
+
+        </div>
+
+        <!-- Camera Buttons -->
+
+        <button class="btn-custom"
+                onclick="startCamera()">
+
+            Open Camera
+
+        </button>
+
+        <button class="btn-custom"
+                onclick="captureImage()">
+
+            Capture Image
+
+        </button>
+
+        <!-- Camera -->
+
+        <video id="video"
+               autoplay>
+
+        </video>
+
+        <canvas id="canvas"></canvas>
+
+    </div>
+
+</div>
+
+<script>
+
+    let video = document.getElementById('video');
+
+    function startCamera(){
+
+        navigator.mediaDevices.getUserMedia({
+            video: true
+        })
+
+        .then(function(stream){
+
+            video.style.display = 'block';
+
+            video.srcObject = stream;
+        })
+
+        .catch(function(error){
+
+            alert("Camera access denied");
+        });
+    }
+
+    function captureImage(){
+
+        let canvas = document.getElementById('canvas');
+
+        let context = canvas.getContext('2d');
+
+        canvas.width = video.videoWidth;
+
+        canvas.height = video.videoHeight;
+
+        context.drawImage(video, 0, 0);
+
+        alert("Image Captured Successfully");
+    }
+
+</script>
+
+</body>
+</html>
